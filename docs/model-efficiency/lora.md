@@ -1,8 +1,9 @@
 ---
 title: "LoRA: 대규모 언어 모델을 위한 경량 적응 기법"
-layout: default
+parent: 모델 경량화
 nav_order: 1
-permalink: /lora/
+layout: default
+permalink: /model-efficiency/lora/
 ---
 
 # LoRA란 무엇인가

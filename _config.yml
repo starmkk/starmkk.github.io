@@ -190,6 +190,10 @@ plugins:
   - jekyll-sitemap
 
 kramdown:
+  input: GFM
+  math_engine: mathjax
+  math_engine_opts:
+    preview: "none"
   syntax_highlighter_opts:
     block:
       line_numbers: false
