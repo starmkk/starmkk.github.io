@@ -1,3 +1,18 @@
 {%- if site.footer_content -%}
   <p class="text-small text-grey-dk-100 mb-0">{{ site.footer_content }}</p>
 {%- endif -%}
+<script>
+  (function () {
+    var el = document.getElementById('footer-timestamp');
+    if (!el) return;
+    var formatter = new Intl.DateTimeFormat('ko-KR', {
+      dateStyle: 'medium',
+      timeStyle: 'medium'
+    });
+    var update = function () {
+      el.textContent = formatter.format(new Date());
+    };
+    update();
+    setInterval(update, 60000);
+  })();
+</script>
