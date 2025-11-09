@@ -19,6 +19,8 @@ AI 연구와 엔지니어링 실험을 기록하는 공간입니다. 모델 미�
 
 ## 최신 글
 
+- [PEFT: 파라미터 효율적 미세 조정 개요](/model-efficiency/peft-overview/)  
+  Adapter, LoRA, Prefix-Tuning 등 대표 PEFT 기법을 비교하고 선택 가이드를 정리한 개요 문서.
 - [LoRA: 대규모 언어 모델을 위한 경량 적응 기법](/model-efficiency/lora/)  
   LoRA의 등장 배경, 저랭크 구조, 성능 효과, 실무 체크리스트까지 한 번에 정리한 심화 가이드.
 
