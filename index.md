@@ -1,7 +1,7 @@
 ---
 title: Home
 layout: home
-nav_order: 1
+nav_order: 0
 description: "AI 연구와 엔지니어링 기록"
 permalink: /
 ---
