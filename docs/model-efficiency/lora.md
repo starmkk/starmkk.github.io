@@ -9,7 +9,7 @@ mathjax: true
 
 # LoRA란 무엇인가
 
-LoRA(Low-Rank Adaptation)는 기훈 허(Hu et al., 2021)가 제안한 대규모 언어 모델(Large Language Model, LLM) 미세 조정 기법으로, 기존 모델 파라미터를 동결한 채로 적은 수의 추가 파라미터만 학습하여 특정 작업에 맞춘 성능 향상을 이끌어낸다. 파라미터 효율성과 메모리 절감이 핵심 가치이며, 완전한 파라미터 미세 조정(full fine-tuning)에 비해 약 1,000배 이상 적은 학습 파라미터만으로도 경쟁력 있는 성능을 확보할 수 있다.
+LoRA(Low-Rank Adaptation)는 대규모 언어 모델(LLM)에서 적은 리소스를 활용해 모델을 미세 조정할 수 있도록 고안된 기법이다. 이 기술은 기존 모델의 성능을 유지하며, 학습 가능한 저랭크 행렬만을 조정해 효율성을 극대화한다.
 
 ## 연구 배경과 동기
 
@@ -19,13 +19,13 @@ LoRA(Low-Rank Adaptation)는 기훈 허(Hu et al., 2021)가 제안한 대규모 
 
 ## 구조와 동작 원리
 
-### 1. 선형 계층에 대한 저랭크 분해
+### 1. 선형 계층에 대한 저랭크 분해(low rand decomposition)
 
 기존 선형 계층의 가중치 행렬 $W \in \mathbb{R}^{d \times k}$를 유지한 채, LoRA는 학습 가능한 두 행렬 $A \in \mathbb{R}^{r \times k}$와 $B \in \mathbb{R}^{d \times r}$를 추가한다. 여기서 $r$은 랭크(rank)로, 일반적으로 $r \ll \min(d, k)$이다. 순전파 시 입력 $x$에 대해 출력은 다음과 같이 계산된다.
 
-$$
-W x + B A x
-$$
+| LoRA 구조 개념도 | 수식 표현 |
+| --- | --- |
+| ![LoRA 구조 개념도](/assets/images/lora-diagram.png){: width="280" } | $$W x + B A x$$ |
 
 원래 가중치 $W$는 동결되어 있고, 저랭크 행렬 $A$와 $B$만 학습된다. 이 덕분에 업데이트해야 하는 파라미터 수가 $d \times k$에서 $r \times (d + k)$로 줄어든다.
 
@@ -38,7 +38,7 @@ $$
 
 - **Self-Attention**: Query, Value 프로젝션 계층에 LoRA를 적용하면, 문맥 이해와 응답 생성이 빠르게 맞춤화된다.
 - **Feed-Forward 네트워크**: MLP 계층의 첫 번째 선형 변환에 적용하면 추가적인 표현력 향상을 기대할 수 있다.
-- **다중 모달/작업 확장**: 최근에는 이미지-텍스트 멀티모달 모델이나 음성 모델에도 LoRA가 적용되고 있으며, GPU 메모리가 제한된 설정에서도 효과적이다.
+- **다중 모달/작업 확장**: 최근에는 이미지-텍스트 멀티모달 모델이나 음성 모델에도 LoRA가 적용되고 있으며, GPU 메모리가 제한된 설정에서도 효과적이다(LoRA 가중치 로딩만으로 새로운 도메인에 빠르게 전환 가능.)
 
 ## 적용 효과
 
@@ -56,6 +56,16 @@ $$
 4. **추론 배포 전략**: LoRA 가중치를 합친(merged) 형태로 내보내거나, 추론 시 동적으로 주입하는 온더플라이 방식 중 운영 환경에 맞는 방법을 선택한다.
 5. **품질 검증**: 전환된 도메인/태스크별로 A/B 테스트를 수행하고, Hallucination, Bias 등 모델 거버넌스 지표를 함께 평가한다.
 
+## 키워드
+- **저랭크(Low-Rank) 학습**: $W x + B A x$ 형태로 경량화된 미세 조정 방식.
+- **효율성**: 업데이트 파라미터 수 0.05% 수준, 메모리 절감.
+- **적용 위치**: Self-Attention, MLP, 다중 도메인 확장.
+- **기술적 특징**: $r$, $\alpha$, 스케일링, 초기화 전략.
+- **적용 효과**: 빠른 전환(Hot-swapping), 안정적 학습.
+- **배경**: 대규모 LLM 확산, Multi-task/Domain 요구 대응, Adapter 한계 극복.
+
+
+
 ---
 
 ### 참고 문헌
@@ -63,4 +73,3 @@ $$
 - Hu, Edward J., et al. "LoRA: Low-Rank Adaptation of Large Language Models." *arXiv preprint arXiv:2106.09685* (2021).
 - Dettmers, Tim, et al. "QLoRA: Efficient Finetuning of Quantized LLMs." *arXiv preprint arXiv:2305.14314* (2023).
 - Xu, Canwen, et al. "Parameter-Efficient Fine-Tuning for Speech and Vision Models." *Proceedings of the IEEE/CVF* (2023).
-
