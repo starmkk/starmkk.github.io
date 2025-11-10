@@ -1,6 +1,7 @@
 ---
 title: "Adapter: Transformer 병목 어댑터를 통한 파라미터 효율화"
-parent: 모델 경량화
+parent: "PEFT: 파라미터 효율적 미세 조정 개요"
+grand_parent: 모델 경량화
 nav_order: 2
 layout: default
 permalink: /model-efficiency/adapter-overview/
@@ -10,6 +11,9 @@ mathjax: false
 # Adapter / Bottleneck Adapter
 
 Adapter는 Transformer 블록 사이에 **작은 병목(bottleneck) 구조**를 삽입하여 태스크별 표현을 학습하는 대표적인 파라미터 효율적 미세 조정(PEFT) 기법이다. 기존 모델의 가중치는 동결하고, 삽입된 어댑터 모듈만 학습하기 때문에 전체 파라미터 대비 매우 적은 수의 파라미터만 업데이트하면 된다.
+- 사전 학습된 언어모델 내의 layer들 사이에 task 특화 레이어 feed forward 네트워크 (혹은 작은 네트워크 모듈)을 삽입하는 방식
+- 기존의 사전학습 모델은 Freeze되며, adapter는 사전학습된 모델과 연결되어 **다운스트림 태스크(down stream task; 사전학습 이후 모델이 실제로 적용되는 구체적 작업, 예: 분류, 질의응답, 감정분석 등)**에 맞게 가중치가 업데이트됨
+- 일부 파라미터만을 학습하였지만, 전체 모델의 파라미터를 업데이트 하는 것과 비교했을 때, 효율적이면서도 비슷한 성능을 유지
 
 ## 구조와 동작 원리
 
@@ -17,11 +21,6 @@ Adapter는 Transformer 블록 사이에 **작은 병목(bottleneck) 구조**를 
 | --- | --- |
 | ![Adapter 구조 개념도](/assets/images/adapter-diagram.png){: width="280" } | $$h_{\text{out}} = h + W_u \sigma(W_d h)$$ |
 
-- **Step 0. 입력 확보**: 각 Transformer 블록에서 Residual 연결 전의 은닉 상태 $h \in \mathbb{R}^d$를 입력으로 사용한다.
-- **Down Projection ($W_d$)**: 원래 차원 $d$에서 작은 병목 차원 $m$($m \ll d$)으로 축소한다.
-- **Nonlinearity**: ReLU, GELU 등 활성화 함수를 적용한다.
-- **Up Projection ($W_u$)**: 다시 원래 차원 $d$로 확장하여 Residual 연결과 더한다.
-- **Step 4. Residual 결합**: 어댑터 출력 $W_u \sigma(W_d h)$를 원 본 출력 $h$와 더해 $h_{\text{out}}$을 만든다.
 
 이 방식은 `Adapter = Down → Activation → Up + Residual` 순서를 따르며, GPT/BERT 같은 Transformer의 Self-Attention/FFN 블록 사이에 삽입된다. 입력 은닉 상태 $h$가 어댑터를 통해 축소·확장되면서 태스크 특화 표현을 학습하며, 최종 출력은 $h_{\text{out}}$으로 Residual 연결을 통해 안정성을 확보한다.
 

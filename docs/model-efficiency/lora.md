@@ -1,7 +1,8 @@
 ---
 title: "LoRA: 대규모 언어 모델을 위한 경량 적응 기법"
-parent: 모델 경량화
-nav_order: 3
+parent: "PEFT: 파라미터 효율적 미세 조정 개요"
+grand_parent: 모델 경량화
+nav_order: 6
 layout: default
 permalink: /model-efficiency/lora/
 mathjax: true

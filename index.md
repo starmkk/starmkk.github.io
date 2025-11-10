@@ -19,12 +19,16 @@ AI 연구와 엔지니어링 실험을 기록하는 공간입니다. 모델 미�
 
 ## 최신 글
 
-- [PEFT: 파라미터 효율적 미세 조정 개요](/model-efficiency/peft-overview/)  
-  Adapter, LoRA, Prefix-Tuning 등 대표 PEFT 기법을 비교하고 선택 가이드를 정리한 개요 문서.
-- [Adapter & Bottleneck Adapter](/model-efficiency/adapter-overview/)  
+- [Prompt-Tuning: 입력 프롬프트 최적화를 통한 경량 적응](/model-efficiency/prompt-tuning/)  
+  텍스트 프롬프트 또는 연속 임베딩 토큰을 학습해 언어 모델을 빠르게 태스크에 적응시키는 전략.
+- [Prefix-Tuning: 연속 프롬프트를 통한 경량 미세 조정](/model-efficiency/prefix-tuning/)  
+  연속 prefix 벡터로 모델의 attention을 조정해 Full Fine-Tuning에 근접한 성능을 노리는 기법.
+- [Adapter: Transformer 병목 어댑터를 통한 파라미터 효율화](/model-efficiency/adapter-overview/)  
   Transformer에 병목 모듈을 삽입하는 어댑터 계열 기법의 구조, 장단점, 하이퍼파라미터 가이드.
+- [PEFT: 파라미터 효율적 미세 조정 개요](/model-efficiency/peft-overview/)  
+  Adapter, LoRA, Prefix-Tuning 등 대표 PEFT 기법을 비교하고 선택 가이드를 정리한 개요.
 - [LoRA: 대규모 언어 모델을 위한 경량 적응 기법](/model-efficiency/lora/)  
-  LoRA의 등장 배경, 저랭크 구조, 성능 효과, 실무 체크리스트까지 한 번에 정리한 심화 가이드.
+  LoRA의 등장 배경, 저랭크 구조, 적용 효과, 실무 체크리스트를 정리한 심화 가이드.
 
 ## 다루는 주제
 
